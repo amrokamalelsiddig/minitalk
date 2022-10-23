@@ -6,7 +6,7 @@
 #    By: aelsiddi <aelsiddi@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/24 16:26:31 by aelsiddi          #+#    #+#              #
-#    Updated: 2022/09/25 14:37:44 by aelsiddi         ###   ########.fr        #
+#    Updated: 2022/10/20 19:19:43 by aelsiddi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,5 +30,8 @@ fclean: clean
 		${RM} ${NAME} ${NAME_2} ${NAME_3}
 
 re:	fclean all
+
+norm:
+	norminette $(SRC) $(name:.h)
 
 .PHONY: all clean fclean re

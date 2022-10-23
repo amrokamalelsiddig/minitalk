@@ -6,13 +6,13 @@
 /*   By: aelsiddi <aelsiddi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 16:25:43 by aelsiddi          #+#    #+#             */
-/*   Updated: 2022/09/25 14:37:16 by aelsiddi         ###   ########.fr       */
+/*   Updated: 2022/10/20 19:55:09 by aelsiddi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	send_char(int pid, char x)
+void	send_char(int pid, char x, t_data *data)
 {
 	int	i;
 
@@ -24,7 +24,8 @@ void	send_char(int pid, char x)
 		else
 			kill(pid, SIGUSR2);
 		i++;
-		usleep(200);
+		data->c_counter++;
+		usleep(150);
 	}
 }
 
@@ -32,8 +33,10 @@ int	main(int argc, char **argv)
 {
 	int		n;
 	int		pid;
+	t_data	data;
 
-	(void)argc;
+	if (argc != 3)
+		return (0);
 	pid = ft_atoi(argv[1]);
 	n = 0;
 	if (!(pid) || !(argv[2]) || pid < 100)
@@ -43,9 +46,15 @@ int	main(int argc, char **argv)
 	}
 	while (argv[2][n])
 	{
-		send_char(pid, argv[2][n]);
+		send_char(pid, argv[2][n], &data);
 		n++;
 	}
+	printf("%d characters sent\n", data.c_counter);
+	printf("%d signals sent\n", data.s_counter);
+	if ((data.s_counter/128) == data.c_counter)
+		write(1, "\nMessage sent successfully  \n", 27);
+	else
+		write(1, "Error\n", 7);
 	return (0);
 }
 
